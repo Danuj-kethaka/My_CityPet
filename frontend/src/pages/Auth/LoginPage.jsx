@@ -15,12 +15,12 @@ const LoginPage = () => {
     e.preventDefault();
     const { success, message, user } = await signInUser(loginUser);
     if (success) {
-      toast.success(message || "Login successful");
+      toast.success(message || "Login successfully");
       setLoginUser({ email: "", password: "" });
       if (user.role === "admin") {
         navigate("/AdminAccount");
       } else {
-        navigate("/UserAccount");
+        navigate("/UserSideBar");
       }
     } else {
       toast.error(message || "Login failed");

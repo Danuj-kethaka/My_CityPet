@@ -6,18 +6,31 @@ export const useUserStore = create(
     (set) => ({
       user: [],
       currentUser: null,
+      accessToken: null,
       setUser: (user) => set({ user }),
 
       // create user account
       createUser: async (newUser) => {
         if (!newUser.name || !newUser.email || !newUser.password)
-          return { success: false, message: "Please provide all required fileds" };
+          return {
+            success: false,
+            message: "Please provide all required fileds",
+          };
         else if (newUser.password.length < 6)
-          return { success: false, message: "Password must be at least 6 characters long" };
+          return {
+            success: false,
+            message: "Password must be at least 6 characters long",
+          };
         else if (newUser.name.length < 3)
-          return { success: false, message: "Name must be at least 3 characters long" };
+          return {
+            success: false,
+            message: "Name must be at least 3 characters long",
+          };
         else if (!/^[\w.-]+@gmail\.com$/.test(newUser.email))
-          return { success: false, message: "Please provide a valid email address" };
+          return {
+            success: false,
+            message: "Please provide a valid email address",
+          };
 
         const res = await fetch("/api/users", {
           method: "POST",
@@ -41,7 +54,8 @@ export const useUserStore = create(
 
         set((state) => ({
           user: state.user.map((u) => (u._id === userid ? data.data : u)),
-          currentUser: state.currentUser?._id === userid ? data.data : state.currentUser,
+          currentUser:
+            state.currentUser?._id === userid ? data.data : state.currentUser,
         }));
         return { success: true, message: data.message };
       },
@@ -56,35 +70,36 @@ export const useUserStore = create(
         return { success: true, message: data.message };
       },
 
+      //fetch users
       fetchUsers: async () => {
-      try {
-        const res = await fetch("/api/users");
+        const { accessToken } = useUserStore.getState();
+
+        const res = await fetch("/api/users", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         const data = await res.json();
-        if (data.success) {
-          set({ user: data.data }); 
-        }
-      } catch (error) {
-        console.error("Failed to fetch users:", error);
-      }
-    },
+        if (data.success) set({ user: data.data });
+      },
 
       // sign in to account
       signInUser: async ({ email, password }) => {
-        if (!email || !password)
-          return { success: false, message: "Please provide email and password" };
-
         const res = await fetch("/api/users/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          credentials: "include",
           body: JSON.stringify({ email, password }),
         });
         const data = await res.json();
-
         if (data.success) {
-          set({ currentUser: data.user });
-          return { success: true, message: "Login successfully", user: data.user };
+          set({
+            currentUser: data.user,
+            accessToken: data.accessToken,
+          });
+          return { success: true, user: data.user };
         }
-        return { success: false, message: data.message || "Login failed" };
+        return { success: false, message: data.message };
       },
 
       // sign out from account
@@ -93,6 +108,6 @@ export const useUserStore = create(
         return { success: true, message: "Logout successfully" };
       },
     }),
-    { name: "user-storage" }
-  )
+    { name: "user-storage" },
+  ),
 );

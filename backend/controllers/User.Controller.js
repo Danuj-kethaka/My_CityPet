@@ -1,14 +1,22 @@
 import User from "../models/User.Model.js";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { generateAccessToken, generateRefreshToken } from "../utils/token.js";
 
 export const createUser = async (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password)
-    return res.status(400).json({ success: false, message: "please provide all required fields" });
+    return res
+      .status(400)
+      .json({ success: false, message: "please provide all required fields" });
 
   try {
-    const newUser = new User({ name, email, password: await bcrypt.hash(password, 10) });
+    const newUser = new User({
+      name,
+      email,
+      password: await bcrypt.hash(password, 10),
+    });
     await newUser.save();
     res.status(201).json({ success: true, data: newUser });
   } catch (error) {
@@ -36,7 +44,9 @@ export const updateUser = async (req, res) => {
 
   try {
     const updateUser = await User.findByIdAndUpdate(id, user, { new: true });
-    res.status(200).json({ success: true, data: updateUser, message: "User Updated" });
+    res
+      .status(200)
+      .json({ success: true, data: updateUser, message: "User Updated" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server Error" });
   }
@@ -49,7 +59,9 @@ export const deleteUser = async (req, res) => {
 
   try {
     await User.findByIdAndDelete(id);
-    res.status(200).json({ success: true, message: "Account Deleted successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "Account Deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server Error" });
   }
@@ -58,18 +70,43 @@ export const deleteUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
-    return res.status(400).json({ success: false, message: "Please provide email and password" });
+    return res
+      .status(400)
+      .json({ success: false, message: "Please provide email and password" });
 
   try {
     const user = await User.findOne({ email });
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    if (!user)
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(401).json({ success: false, message: "Invalid credentials" });
+    if (!isMatch)
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid credentials" });
+
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     res.status(200).json({
       success: true,
-      user: { _id: user._id, name: user.name, email: user.email, role: user.role, createdAt: user.createdAt },
+      accessToken,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt,
+      },
     });
   } catch (error) {
     console.error("Login Error:", error.message);
