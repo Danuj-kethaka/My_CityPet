@@ -22,10 +22,26 @@ export const createAppointment = async(req,res) => {
 
 export const getAppointments = async(req,res) => {
     try{
-        const appointments = await Appointment.find({});
+        const appointments = await Appointment.find({user: req.user.id});
         res.status(200).json({success:true,data:appointments});
     }catch(error){
         console.log("error in fetching appointments: ", error.message);
         res.status(500).json({success:false,message:"Server Error"});
     }
+}
+
+export const updateAppointment = async(req,res) => {
+    const {id} = req.params;
+    const status = req.body;
+
+    if(!mongoose.Types.ObjectId.isValid(id))
+        return res.status(404).json({success:false,message: "Invalid User Id"});
+
+    try{
+        const updateAppointment = await Appointment.findByIdAndUpdate(id,status,{new:true});
+        res.status(200).json({success:true,data:updateAppointment,message: "Appointment Updated"});
+    }catch(error){
+        res.status(500).json({success:false,message:"Server Error"});
+    }
+
 }

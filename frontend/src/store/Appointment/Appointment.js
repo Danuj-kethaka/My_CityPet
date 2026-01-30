@@ -47,11 +47,27 @@ export const useAppointmentStore = create(persist((set) => ({
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const data = await res.json();
-      if (res.success) set({ appointments: data.data });
+      if (res.ok) set({ appointments: data.data });
     } catch (error) {
       console.error("Fetch appointments error:", error);
     }
   },
+
+  updateAppointment: async(appointmentid,status) => {
+    const res = await fetch(`/api/appointments/${appointmentid}/status`,{
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({status}),
+    });
+    const data = await res.json();
+    if(!data.success) return{success:false,message: data.message};
+    set((state) => ({
+      appointments : state.appointments.map((appointment) => (appointment._id === appointmentid? data.data : appointment)),
+    }));
+    return{success:true,message:data.message};
+  }
+
+
   }),
   {
   name: "appointment-storage", 

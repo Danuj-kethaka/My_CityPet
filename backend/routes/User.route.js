@@ -12,10 +12,10 @@ import { generateAccessToken } from "../utils/token.js";
 import { protect } from "../middleware/auth.middleware.js";
 
 //user routes
-router.post("/", createUser);
+router.post("/",protect, createUser);
 router.get("/", protect, getUsers);
-router.put("/:id", updateUser);
-router.delete("/:id", deleteUser);
+router.put("/:id",protect, updateUser);
+router.delete("/:id",protect, deleteUser);
 
 //login routes
 router.post("/login", loginUser);
