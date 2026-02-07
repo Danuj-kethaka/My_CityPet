@@ -11,6 +11,7 @@ export const useUserStore = create(
 
       // create user account
       createUser: async (newUser) => {
+        const {accessToken} = useUserStore.getState();
         if (!newUser.name || !newUser.email || !newUser.password)
           return {
             success: false,
@@ -34,7 +35,7 @@ export const useUserStore = create(
 
         const res = await fetch("/api/users", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json",Authorization: `Bearer ${accessToken}`, },
           body: JSON.stringify(newUser),
         });
         const data = await res.json();
@@ -44,9 +45,10 @@ export const useUserStore = create(
 
       // update user account
       updateUser: async (userid, updatedUser) => {
+        const {accessToken} = useUserStore.getState();
         const res = await fetch(`/api/users/${userid}`, {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}`, },
           body: JSON.stringify(updatedUser),
         });
         const data = await res.json();
@@ -62,7 +64,11 @@ export const useUserStore = create(
 
       // delete user account
       deleteUser: async (userid) => {
-        const res = await fetch(`/api/users/${userid}`, { method: "DELETE" });
+        const { accessToken } = useUserStore.getState();
+        const res = await fetch(`/api/users/${userid}`,{
+        method: "DELETE",
+        headers: {Authorization: `Bearer ${accessToken}`,}, 
+        });
         const data = await res.json();
         if (!data.success) return { success: false, message: data.message };
 
@@ -73,7 +79,6 @@ export const useUserStore = create(
       //fetch users
       fetchUsers: async () => {
         const { accessToken } = useUserStore.getState();
-
         const res = await fetch("/api/users", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -85,9 +90,10 @@ export const useUserStore = create(
 
       // sign in to account
       signInUser: async ({ email, password }) => {
+        const { accessToken } = useUserStore.getState();
         const res = await fetch("/api/users/login", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json",  Authorization: `Bearer ${accessToken}`},
           credentials: "include",
           body: JSON.stringify({ email, password }),
         });

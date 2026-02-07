@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import { useUserStore } from "../Auth/User";
+import { useUserStore } from "../Auth/User.js";
 import { persist } from "zustand/middleware";
 
-export const useAppointmentStore = create(persist((set) => ({
+export const useAppointmentStore = create((set) => ({
     appointments: [],
     setAppointments: (appointments) => set({ appointments }),
     createAppointment: async (newAppointment) => {
@@ -40,12 +40,12 @@ export const useAppointmentStore = create(persist((set) => ({
 
   fetchAppointments: async () => {
     const { accessToken } = useUserStore.getState();
-    if (!accessToken) return;
-
     try {
       const res = await fetch("/api/appointments", {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
+         headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+    });
       const data = await res.json();
       if (res.ok) set({ appointments: data.data });
     } catch (error) {
@@ -65,11 +65,5 @@ export const useAppointmentStore = create(persist((set) => ({
       appointments : state.appointments.map((appointment) => (appointment._id === appointmentid? data.data : appointment)),
     }));
     return{success:true,message:data.message};
-  }
-
-
-  }),
-  {
-  name: "appointment-storage", 
-  }
-));
+  }}),
+);

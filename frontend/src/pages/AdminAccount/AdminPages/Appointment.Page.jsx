@@ -21,10 +21,11 @@ const localizer = dateFnsLocalizer({
 
 const AdminAppointmentPage = () => {
   const { appointments, fetchAppointments, updateAppointment } = useAppointmentStore();
+  const safeAppointments = appointments?.filter(Boolean) || [];
   const [events, setEvents] = useState([]);
   useEffect(() => {fetchAppointments();}, []);
   useEffect(() => {
-    const mappedEvents = appointments.map(a => {
+    const mappedEvents = safeAppointments.map(a => {
       const dateObj = new Date(a.date); 
       const [hours, minutes] = a.time.split(":").map(Number); 
       dateObj.setHours(hours, minutes);
@@ -43,9 +44,9 @@ const AdminAppointmentPage = () => {
     else toast.error(message);
   };
   
-  const pendingAppointments = appointments.filter(a => a.status === "pending");
-  const acceptedAppointments = appointments.filter(a => a.status === "accepted");
-  const rejectedAppointments = appointments.filter(a => a.status === "rejected");
+  const pendingAppointments = safeAppointments.filter(a => a.status === "pending");
+  const acceptedAppointments = safeAppointments.filter(a => a.status === "accepted");
+  const rejectedAppointments = safeAppointments.filter(a => a.status === "rejected");
 
   const renderTable = (title, data) => (
     <div className="p-5 bg-white shadow rounded-lg mb-8">
@@ -72,13 +73,13 @@ const AdminAppointmentPage = () => {
                   {appointment.status === "pending" && (
                     <>
                       <button
-                        className="text-blue-600 hover:text-blue-900 mr-2"
+                        className="text-red-600 hover:text-red-900 mr-2"
                         onClick={() => handleEdit(appointment._id, "rejected")}
                       >
                         <BsFillXSquareFill size={20} />
                       </button>
                       <button
-                        className="text-red-600 hover:text-red-900"
+                        className="text-blue-600 hover:text-blue-900"
                         onClick={() => handleEdit(appointment._id, "accepted")}
                       >
                         <BsCheckSquareFill size={20} />
@@ -113,8 +114,8 @@ const AdminAppointmentPage = () => {
             style: {
               backgroundColor:
                 event.status === "accepted" ? "#526cf2" :
-                event.status === "rejected" ? "#f06767" :
-                "#FBBF24",
+                event.status === "rejected" ? "#70f067" :
+                "#24d3fb",
               color: "white",
             },
           })}

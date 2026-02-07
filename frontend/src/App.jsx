@@ -2,23 +2,24 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import Navbar from "./components/Navbar.jsx";
-import { Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./pages/HomePage.jsx";
 import About from "./pages/AboutPage.jsx";
+import { Toaster } from "react-hot-toast";
 import Contact from "./pages/ContactUsPage.jsx";
 import Services from "./pages/ServicePage.jsx";
 import LoginPage from "./pages/Auth/LoginPage.jsx";
 import SignUpPage from "./pages/Auth/SignUpPage.jsx";
+import UserSideBar from "./components/UserSideBar.jsx";
+import AdminSideBar from "./components/AdminSideBar.jsx";
+import { Routes, Route, useLocation } from "react-router-dom";
 import AdminAccount from "./pages/AdminAccount/Admin.DashBoard.jsx";
 import UserPage from "./pages/AdminAccount/AdminPages/User.Page.jsx";
-import AdminSideBar from "./components/AdminSideBar.jsx";
 import AdminDashBoard from "./pages/AdminAccount/Admin.DashBoard.jsx";
+import PetDetailsPage from "./pages/UserAccount/PetDetails/PetDetails.jsx";
 import AppointmentPage from "./pages/UserAccount/Appointment/Appointment.jsx";
 import AccountDetails from "./pages/UserAccount/AccountDetails/AccountDetails.jsx"
 import EditAccount from "./pages/UserAccount/Edit Account Details/EditAccount.jsx";
 import AdminAppointmentPage from "./pages/AdminAccount/AdminPages/Appointment.Page.jsx";
-import UserSideBar from "./components/UserSideBar.jsx";
-import { Toaster } from "react-hot-toast";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -35,6 +36,7 @@ function App() {
     "/UserSideBar/EditAccount",
     "/UserSideBar/AccountDetails",
     "/UserSideBar/UserAppointment",
+    "/UserSideBar/PetDetails",
   ];
 
   return (
@@ -63,6 +65,7 @@ function App() {
           <Route path="AccountDetails" element={<AccountDetails />} />
           <Route path="EditAccount" element={<EditAccount />} />
           <Route path="UserAppointment" element={<AppointmentPage />} />
+          <Route path="PetDetails" element={<PetDetailsPage />} />
         </Route>
       </Routes>
     </>

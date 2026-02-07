@@ -5,5 +5,5 @@ import { createAppointment,getAppointments ,updateAppointment} from "../controll
 import { protect } from "../middleware/auth.middleware.js";
 
 router.post("/",protect,createAppointment);
-router.get("/",getAppointments);
+router.get("/",protect,getAppointments);
 router.put("/:id/status",updateAppointment);

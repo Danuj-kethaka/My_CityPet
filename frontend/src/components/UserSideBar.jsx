@@ -136,8 +136,7 @@ const UserSideBar = () => {
             {sidebarOpen && <span className="ml-3 truncate">Account</span>}
           </Link>
 
-          <a
-            href="#"
+          <Link to="PetDetails"
             className="bg-sky-100 border-sky-600 text-sky-700 hover:bg-sky-200 hover:text-sky-700 group border-l-4 px-3 py-2 flex items-center text-sm font-medium"
           >
             <svg
@@ -156,7 +155,7 @@ const UserSideBar = () => {
               />
             </svg>
             {sidebarOpen && <span className="ml-3 truncate">Pet Details</span>}
-          </a>
+          </Link>
 
           <Link
             to="UserAppointment"

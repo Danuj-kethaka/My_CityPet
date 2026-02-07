@@ -20,15 +20,23 @@ export const createAppointment = async(req,res) => {
     }
 };
 
-export const getAppointments = async(req,res) => {
-    try{
-        const appointments = await Appointment.find({user: req.user.id});
-        res.status(200).json({success:true,data:appointments});
-    }catch(error){
-        console.log("error in fetching appointments: ", error.message);
-        res.status(500).json({success:false,message:"Server Error"});
+export const getAppointments = async (req, res) => {
+  try {
+    let appointments;
+
+    if (req.user.role === "admin") {
+      appointments = await Appointment.find({});
+    } else {
+      appointments = await Appointment.find({ user: req.user.id });
     }
-}
+
+    res.status(200).json({ success: true, data: appointments });
+  } catch (error) {
+    console.log("error in fetching appointments:", error.message);
+    res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
 
 export const updateAppointment = async(req,res) => {
     const {id} = req.params;

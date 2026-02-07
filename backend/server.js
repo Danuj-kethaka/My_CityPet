@@ -4,6 +4,7 @@ import { connectDB } from "./config/db.js";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/User.route.js";
 import appointmentRoutes from "./routes/Appointment.route.js"
+import petprofileRoutes from "./routes/PetProfile.route.js"
 
 dotenv.config();
 
@@ -18,6 +19,9 @@ app.use("/api/users", userRoutes);
 
 //Appointment Routes
 app.use("/api/appointments",appointmentRoutes);
+
+//Pet Profile Routes
+app.use("/api/petprofile",petprofileRoutes)
 
 //Admin create Route
 app.use("/api/admin", userRoutes);

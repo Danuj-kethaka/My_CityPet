@@ -8,18 +8,20 @@ import { useUserStore } from "../../../store/Auth/User.js";
 
 const AppointmentPage = () => {
   const [newAppointment,setnewAppointment] = useState({petname: "",date: "",time: "",mobilenumber: "",category: "",reason: "",});
-  const {createAppointment,fetchAppointments,appointments} = useAppointmentStore();
+  const {createAppointment,fetchAppointments,appointments,setAppointments} = useAppointmentStore();
   const [selected, setSelected] = useState(true);
   const handleAddAppointment = async () => {
     const {success,message} = await createAppointment(newAppointment);
       if(success){
         toast.success(message);
-        setnewAppointment({petname: "", date: "",time: "",mobilenumber: "",category: "",reason: ""})
+        setnewAppointment({petname: "", date: "",time: "",mobilenumber: "",category: "",reason: ""});
+        fetchAppointments();
       }else{
         toast.error(message);
       }}
   const { accessToken } = useUserStore.getState();
-    useEffect(() => {
+  useEffect(() => {
+  setAppointments([]);   
   if (accessToken) fetchAppointments();
   }, [accessToken]);
 
@@ -58,21 +60,24 @@ const AppointmentPage = () => {
             <div>
               <div>
                 {appointments.length === 0 ? (
-        <p className="text-gray-500">
-          No appointments available
-        </p>
-      ) : (
-        appointments.map((appointment) => (
-          <div
-            key={appointment._id}
-            className="p-4 mb-3 border rounded-lg shadow-sm"
-          >
-            <p><b>Pet:</b> {appointment.petname}</p>
-            <p><b>Date:</b> {new Date(appointment.date).toLocaleDateString()}</p>
-            <p><b>Time:</b> {appointment.time}</p>
-          </div>
-        ))
-      )}
+                <p className="text-gray-500">
+                  No appointments available
+                </p>
+              ) : (
+                appointments
+                .filter((appointment) => appointment !== null)
+                .map((appointment) => (
+                  <div
+                    key={appointment._id}
+                    className="p-4 mb-3 border rounded-lg shadow-sm"
+                  >
+                    <p><b>Pet:</b> {appointment.petname}</p>
+                    <p><b>Date:</b> {new Date(appointment.date).toLocaleDateString()}</p>
+                    <p><b>Time:</b> {appointment.time}</p>
+                    <p><b>status:</b> {appointment.status}</p>
+                  </div>
+                ))
+              )}
               </div>
             </div>
           ) : (
