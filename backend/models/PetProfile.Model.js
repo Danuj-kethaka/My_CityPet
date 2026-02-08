@@ -28,10 +28,15 @@ const PetProfileSchema = new mongoose.Schema(
             type: Number,
             minlength: 0,
         },
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
         medicalhistory: {
             type: String,
             minlength: 3,
-        }
+        },
     },
     {timestamps: true}
 );

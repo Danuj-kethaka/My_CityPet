@@ -6,4 +6,4 @@ import { protect } from "../middleware/auth.middleware.js";
 
 router.post("/",protect,createAppointment);
 router.get("/",protect,getAppointments);
-router.put("/:id/status",updateAppointment);
+router.put("/:id/status",protect,updateAppointment);

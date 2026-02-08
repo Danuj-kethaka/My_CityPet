@@ -33,8 +33,6 @@ const AdminSideBar = () => {
     { icon: PawPrint, label: "Pets" },
     { icon: Calendar, label: "Appointments",path:"AdminAppointment" },
     { icon: Users, label: "Users",path:"users" },
-    { icon: UserCog, label: "Staff" },
-    { icon: HeartHandshake, label: "Donations" },
     { icon: Settings, label: "Settings" },
     { icon: LogOut, label: "Logout", danger: true },
   ];
