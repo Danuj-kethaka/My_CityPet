@@ -30,7 +30,7 @@ const AdminSideBar = () => {
 
   const menuItems = [
     { icon: LayoutDashboard, label: "Dashboard",path:"/AdminAccount", active: true },
-    { icon: PawPrint, label: "Pets" },
+    { icon: PawPrint, label: "Pets",path:"AdminPetProfile" },
     { icon: Calendar, label: "Appointments",path:"AdminAppointment" },
     { icon: Users, label: "Users",path:"users" },
     { icon: Settings, label: "Settings" },

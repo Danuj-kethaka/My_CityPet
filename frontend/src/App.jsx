@@ -20,6 +20,7 @@ import AppointmentPage from "./pages/UserAccount/Appointment/Appointment.jsx";
 import AccountDetails from "./pages/UserAccount/AccountDetails/AccountDetails.jsx"
 import EditAccount from "./pages/UserAccount/Edit Account Details/EditAccount.jsx";
 import AdminAppointmentPage from "./pages/AdminAccount/AdminPages/Appointment.Page.jsx";
+import AdminPetProfile from "./pages/AdminAccount/AdminPages/PetProfile.Page.jsx"
 
 function App() {
   const [count, setCount] = useState(0);
@@ -30,6 +31,7 @@ function App() {
     "/AdminAccount",
     "/AdminAccount/users",
     "/AdminAccount/AdminAppointment",
+    "/AdminAccount/AdminPetProfile",
     "/UserAppointment",
     "/CreateAppointment",
     "/UserSideBar/UserAccount",
@@ -58,6 +60,7 @@ function App() {
           <Route index element={<AdminDashBoard />} />
           <Route path="users" element={<UserPage />} />
           <Route path="AdminAppointment" element={<AdminAppointmentPage/>}/>
+          <Route path="AdminPetProfile" element={<AdminPetProfile/>}/>
         </Route>
 
         <Route path="/UserSideBar" element={<UserSideBar/>}>
