@@ -6,6 +6,7 @@ export const useAppointmentStore = create((set) => ({
     appointments: [],
     setAppointments: (appointments) => set({ appointments }),
     createAppointment: async (newAppointment) => {
+    const API_URL = import.meta.env.VITE_API_URL;  
     const { accessToken } = useUserStore.getState();
    
     if ( !newAppointment.petname || !newAppointment.date || !newAppointment.time || !newAppointment.mobilenumber || !newAppointment.category || !newAppointment.reason) {
@@ -15,7 +16,7 @@ export const useAppointmentStore = create((set) => ({
       return { success: false, message: "You must be logged in" };
     }
     try {
-      const res = await fetch("/api/appointments", {
+      const res = await fetch(`${API_URL}/api/appointments`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,9 +40,10 @@ export const useAppointmentStore = create((set) => ({
   },
 
   fetchAppointments: async () => {
+    const API_URL = import.meta.env.VITE_API_URL;
     const { accessToken } = useUserStore.getState();
     try {
-      const res = await fetch("/api/appointments", {
+      const res = await fetch(`${API_URL}/api/appointments`, {
          headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -54,7 +56,8 @@ export const useAppointmentStore = create((set) => ({
   },
 
   updateAppointment: async(appointmentid,status) => {
-    const res = await fetch(`/api/appointments/${appointmentid}/status`,{
+    const API_URL = import.meta.env.VITE_API_URL;
+    const res = await fetch(`${API_URL}/api/appointments/${appointmentid}/status`,{
       method: "PUT",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({status}),

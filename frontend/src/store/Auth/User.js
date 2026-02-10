@@ -11,6 +11,7 @@ export const useUserStore = create(
 
       // create user account
       createUser: async (newUser) => {
+        const API_URL = import.meta.env.VITE_API_URL;
         const {accessToken} = useUserStore.getState();
         if (!newUser.name || !newUser.email || !newUser.password)
           return {
@@ -33,7 +34,7 @@ export const useUserStore = create(
             message: "Please provide a valid email address",
           };
 
-        const res = await fetch("/api/users", {
+        const res = await fetch(`${API_URL}/api/users`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newUser),
@@ -45,8 +46,9 @@ export const useUserStore = create(
 
       // update user account
       updateUser: async (userid, updatedUser) => {
+        const API_URL = import.meta.env.VITE_API_URL;
         const {accessToken} = useUserStore.getState();
-        const res = await fetch(`/api/users/${userid}`, {
+        const res = await fetch(`${API_URL}/api/users/${userid}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}`, },
           body: JSON.stringify(updatedUser),
@@ -64,8 +66,9 @@ export const useUserStore = create(
 
       // delete user account
       deleteUser: async (userid) => {
+        const API_URL = import.meta.env.VITE_API_URL;
         const { accessToken } = useUserStore.getState();
-        const res = await fetch(`/api/users/${userid}`,{
+        const res = await fetch(`${API_URL}/api/users/${userid}`,{
         method: "DELETE",
         headers: {Authorization: `Bearer ${accessToken}`,}, 
         });
@@ -78,8 +81,9 @@ export const useUserStore = create(
 
       //fetch users
       fetchUsers: async () => {
+        const API_URL = import.meta.env.VITE_API_URL;
         const { accessToken } = useUserStore.getState();
-        const res = await fetch(`/api/users`, {
+        const res = await fetch(`${API_URL}/api/users`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -90,8 +94,9 @@ export const useUserStore = create(
 
       // sign in to account
       signInUser: async ({ email, password }) => {
+        const API_URL = import.meta.env.VITE_API_URL;
         const { accessToken } = useUserStore.getState();
-        const res = await fetch(`/api/users/login`, {
+        const res = await fetch(`${API_URL}/api/users/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json"},
           credentials: "include",

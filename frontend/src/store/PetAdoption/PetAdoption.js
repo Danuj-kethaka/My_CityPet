@@ -6,6 +6,7 @@ export const usePetAdoptionStore = create((set) => ({
     setnewPetAdoption: (PetAdoption) => set({PetAdoption}),
 
     createPetAdoption: async(newPetAdoption) => {
+        const API_URL = import.meta.env.VITE_API_URL;
         const{accessToken} = useUserStore.getState();
         if(!newPetAdoption.Petname || !newPetAdoption.PetImage || !newPetAdoption.category || !newPetAdoption.breed || !newPetAdoption.Age || !newPetAdoption.sex || !newPetAdoption.weight || !newPetAdoption.medicalhistory){
             return { success: false, message: "Please provide all fields" };
@@ -14,7 +15,7 @@ export const usePetAdoptionStore = create((set) => ({
            return { success: false, message: "You must be logged in" };
         }
         try{
-            const res = await fetch(`/api/petadoption`,{
+            const res = await fetch(`${API_URL}/api/petadoption`,{
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -37,9 +38,10 @@ export const usePetAdoptionStore = create((set) => ({
     },
 
     fetchPetAdoption:async() => {
+        const API_URL = import.meta.env.VITE_API_URL;
         const {accessToken} = useUserStore.getState();
         try{
-            const res= await fetch(`/api/petadoption`,{
+            const res= await fetch(`${API_URL}/api/petadoption`,{
                 headers: {
                      Authorization: `Bearer ${accessToken}`,
                 }
@@ -52,8 +54,9 @@ export const usePetAdoptionStore = create((set) => ({
     },
 
     updatePetAdoption:async(PetAdoptionid,updatePetAdoption) => {
+        const API_URL = import.meta.env.VITE_API_URL;
         const {accessToken} = useUserStore.getState();
-        const res = await fetch(`/api/petadoption/${PetAdoptionid}`,{
+        const res = await fetch(`${API_URL}/api/petadoption/${PetAdoptionid}`,{
             method: "PUT",
             headers:{
                 "Content-Type": "application/json",
@@ -70,8 +73,9 @@ export const usePetAdoptionStore = create((set) => ({
     },
 
     deletePetAdoption: async(PetAdoptionid,deletePetAdoption) => {
+        const API_URL = import.meta.env.VITE_API_URL;
         const {accessToken} = useUserStore.getState();
-        const res = await fetch(`/api/petadoption/${PetAdoptionid}`,{
+        const res = await fetch(`${API_URL}/api/petadoption/${PetAdoptionid}`,{
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${accessToken}`,

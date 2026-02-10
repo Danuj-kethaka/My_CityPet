@@ -6,6 +6,7 @@ export const usePetProfileStore = create((set) => ({
     PetProfile: [],
     setnewPetProfile: (PetProfile) => set({PetProfile}),
     createPetProfile: async(newPetProfile) => {
+        const API_URL = import.meta.env.VITE_API_URL;
         const { accessToken } = useUserStore.getState();
         if(!newPetProfile.Petname || !newPetProfile.category || !newPetProfile.breed || !newPetProfile.Age || !newPetProfile.sex || !newPetProfile.weight || !newPetProfile.medicalhistory){
             return { success: false, message: "Please provide all fields" };
@@ -14,7 +15,7 @@ export const usePetProfileStore = create((set) => ({
            return { success: false, message: "You must be logged in" };
         }
         try{
-            const res = await fetch(`/api/petprofile`, {
+            const res = await fetch(`${API_URL}/api/petprofile`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -38,9 +39,10 @@ export const usePetProfileStore = create((set) => ({
     },
 
     fetchPetProfile:async () => {
+        const API_URL = import.meta.env.VITE_API_URL;
         const {accessToken} = useUserStore.getState();
         try{
-            const res= await fetch(`/api/petprofile`,{
+            const res= await fetch(`${API_URL}/api/petprofile`,{
                 headers: {
                      Authorization: `Bearer ${accessToken}`,
                 }
@@ -53,8 +55,9 @@ export const usePetProfileStore = create((set) => ({
     },
      
     updatePetProfile: async(PetProfileid,updatepetprofile) => {
+        const API_URL = import.meta.env.VITE_API_URL;
         const {accessToken} = useUserStore.getState();
-        const res = await fetch(`/api/petprofile/${PetProfileid}`,{
+        const res = await fetch(`${API_URL}/api/petprofile/${PetProfileid}`,{
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -71,8 +74,9 @@ export const usePetProfileStore = create((set) => ({
     },
 
     deletePetprofile: async(PetProfileid,deletepetprofile) => {
+        const API_URL = import.meta.env.VITE_API_URL;
         const {accessToken} = useUserStore.getState();
-        const res = await fetch(`/api/petprofile/${PetProfileid}`,{
+        const res = await fetch(`${API_URL}/api/petprofile/${PetProfileid}`,{
            method: "DELETE",
            headers: {
                 Authorization: `Bearer ${accessToken}`,
