@@ -91,7 +91,7 @@ export const useUserStore = create(
       // sign in to account
       signInUser: async ({ email, password }) => {
         const { accessToken } = useUserStore.getState();
-        const res = await fetch("/api/users/login", {
+        const res = await fetch(`/api/users/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json",  Authorization: `Bearer ${accessToken}`},
           credentials: "include",

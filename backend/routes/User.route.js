@@ -20,8 +20,6 @@ router.delete("/:id",protect, deleteUser);
 //login routes
 router.post("/login", loginUser);
 
-//create admin route
-router.post("/admin", createAdmin);
 
 //create token route
 router.post("/refesh", (req, res) => {
