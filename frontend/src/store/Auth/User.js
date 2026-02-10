@@ -35,7 +35,7 @@ export const useUserStore = create(
 
         const res = await fetch("/api/users", {
           method: "POST",
-          headers: { "Content-Type": "application/json",Authorization: `Bearer ${accessToken}`, },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newUser),
         });
         const data = await res.json();
@@ -93,7 +93,7 @@ export const useUserStore = create(
         const { accessToken } = useUserStore.getState();
         const res = await fetch(`/api/users/login`, {
           method: "POST",
-          headers: { "Content-Type": "application/json",  Authorization: `Bearer ${accessToken}`},
+          headers: { "Content-Type": "application/json"},
           credentials: "include",
           body: JSON.stringify({ email, password }),
         });
