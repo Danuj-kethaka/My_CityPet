@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import userRoutes from "./routes/User.route.js";
 import appointmentRoutes from "./routes/Appointment.route.js"
 import petprofileRoutes from "./routes/PetProfile.route.js"
+import PetAdoption from "./routes/PetAdoption.route.js"
 
 dotenv.config();
 
@@ -22,6 +23,9 @@ app.use("/api/appointments",appointmentRoutes);
 
 //Pet Profile Routes
 app.use("/api/petprofile",petprofileRoutes)
+
+//Pet Adoption Routes
+app.use("/api/petadoption",PetAdoption);
 
 //Admin create Route
 app.use("/api/admin", userRoutes);

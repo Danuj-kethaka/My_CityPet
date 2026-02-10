@@ -11,11 +11,13 @@ const PetDetailsPage = () => {
   const { success, message } = await createPetProfile(newPetProfile);
   if (success) {toast.success(message);
     setnewPetProfile({Petname: "",category: "",breed: "", Age: "",sex: "",weight: "",medicalhistory: "",});
+    fetchPetProfile();
   } else {
     toast.error(message);
   }}
   const { accessToken } = useUserStore.getState();
-  useEffect(() => {setnewPetProfile([]); if(accessToken)fetchPetProfile();},[accessToken]);
+  useEffect(() => {setnewPetProfile({Petname: "",category: "",breed: "",Age: "",sex: "",weight: "",medicalhistory: "",});
+; if(accessToken)fetchPetProfile();},[accessToken]);
 
   return (
     <div className="relative w-full mt-4 rounded-md border h-10 p-1 bg-gray-200">
@@ -57,7 +59,7 @@ const PetDetailsPage = () => {
                 </p>): (
                   PetProfile
                   .filter((PetProfile) => PetProfile !== null)
-                  .map((PetProfile) => (
+                  .map((pet) => (
                     <>
                     <section class="py-10 my-auto dark:bg-gray-900">
                         <div class="lg:w-[80%] md:w-[90%] w-[96%] mx-auto flex gap-4">
@@ -79,13 +81,13 @@ const PetDetailsPage = () => {
                                   <div class="w-full  mb-4 mt-6">
                                     <label className="mb-2 dark:text-gray-300">Pet Name</label>
                                       <p className="mt-2 p-2 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800">
-                                        {PetProfile.Petname}
+                                        {pet.Petname}
                                       </p>
                                     </div>
                                   <div className="w-full mb-4 mt-6">
                                     <label className="mb-2 dark:text-gray-300">Pet Category</label>
                                     <p className="mt-2 p-2 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800">
-                                      {PetProfile.category}
+                                      {pet.category}
                                     </p>
                                   </div>
                                 </div>
@@ -93,13 +95,13 @@ const PetDetailsPage = () => {
                                   <div class="w-full  mb-4 mt-6">
                                     <label className="mb-2 dark:text-gray-300">Breed</label>
                                       <p className="mt-2 p-2 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800">
-                                        {PetProfile.breed}
+                                        {pet.breed}
                                       </p>
                                     </div>
                                   <div className="w-full mb-4 mt-6">
                                     <label className="mb-2 dark:text-gray-300">Pet Age</label>
                                     <p className="mt-2 p-2 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800">
-                                      {PetProfile.Age}
+                                      {pet.Age}
                                     </p>
                                   </div>
                                 </div>
@@ -107,13 +109,13 @@ const PetDetailsPage = () => {
                                   <div class="w-full  mb-4 mt-6">
                                     <label className="mb-2 dark:text-gray-300">Sex</label>
                                       <p className="mt-2 p-2 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800">
-                                        {PetProfile.sex}
+                                        {pet.sex}
                                       </p>
                                     </div>
                                   <div className="w-full mb-4 mt-6">
                                     <label className="mb-2 dark:text-gray-300">Pet Weight</label>
                                     <p className="mt-2 p-2 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800">
-                                      {PetProfile.weight}
+                                      {pet.weight}
                                     </p>
                                   </div>
                                 </div>
@@ -121,7 +123,7 @@ const PetDetailsPage = () => {
                                   <div class="w-full">
                                     <h3 class="dark:text-gray-300 mb-2">Medical History</h3>
                                     <p className="mt-2 p-2 w-full border-2 rounded-lg dark:text-gray-200 dark:border-gray-600 dark:bg-gray-800">
-                                      {PetProfile.medicalhistory}
+                                      {pet.medicalhistory}
                                     </p>
                                   </div>
                                   

@@ -5,22 +5,26 @@ import Navbar from "./components/Navbar.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import About from "./pages/AboutPage.jsx";
 import { Toaster } from "react-hot-toast";
+import PetPage from "./pages/PetPage.jsx";
 import Contact from "./pages/ContactUsPage.jsx";
 import Services from "./pages/ServicePage.jsx";
 import LoginPage from "./pages/Auth/LoginPage.jsx";
 import SignUpPage from "./pages/Auth/SignUpPage.jsx";
 import UserSideBar from "./components/UserSideBar.jsx";
 import AdminSideBar from "./components/AdminSideBar.jsx";
+import AddPetAdoption from "./components/AddPetAdoption.jsx";
 import { Routes, Route, useLocation } from "react-router-dom";
 import AdminAccount from "./pages/AdminAccount/Admin.DashBoard.jsx";
 import UserPage from "./pages/AdminAccount/AdminPages/User.Page.jsx";
 import AdminDashBoard from "./pages/AdminAccount/Admin.DashBoard.jsx";
 import PetDetailsPage from "./pages/UserAccount/PetDetails/PetDetails.jsx";
 import AppointmentPage from "./pages/UserAccount/Appointment/Appointment.jsx";
+import AdminPetProfile from "./pages/AdminAccount/AdminPages/PetProfile.Page.jsx"
+import AdminAdoptionPage from "./pages/AdminAccount/AdminPages/Adoption.Page.jsx";
 import AccountDetails from "./pages/UserAccount/AccountDetails/AccountDetails.jsx"
 import EditAccount from "./pages/UserAccount/Edit Account Details/EditAccount.jsx";
 import AdminAppointmentPage from "./pages/AdminAccount/AdminPages/Appointment.Page.jsx";
-import AdminPetProfile from "./pages/AdminAccount/AdminPages/PetProfile.Page.jsx"
+
 
 function App() {
   const [count, setCount] = useState(0);
@@ -31,7 +35,9 @@ function App() {
     "/AdminAccount",
     "/AdminAccount/users",
     "/AdminAccount/AdminAppointment",
+    "/AdminAccount/AddPetAdoption",
     "/AdminAccount/AdminPetProfile",
+    "/AdminAccount/AdminAdoption",
     "/UserAppointment",
     "/CreateAppointment",
     "/UserSideBar/UserAccount",
@@ -55,12 +61,15 @@ function App() {
         <Route path="/UserSideBar" element={<UserSideBar />} />
         <Route path="/AdminAccount" element={<AdminDashBoard />} />
         <Route path="/UserAppointment" element={<AppointmentPage />} />
+        <Route path="/PetPage" element={<PetPage />} />
 
         <Route path="/AdminAccount" element={<AdminSideBar />}>
           <Route index element={<AdminDashBoard />} />
           <Route path="users" element={<UserPage />} />
           <Route path="AdminAppointment" element={<AdminAppointmentPage/>}/>
           <Route path="AdminPetProfile" element={<AdminPetProfile/>}/>
+          <Route path="AdminAdoption" element={<AdminAdoptionPage/>}/>
+          <Route path="AddPetAdoption" element={<AddPetAdoption />} />
         </Route>
 
         <Route path="/UserSideBar" element={<UserSideBar/>}>

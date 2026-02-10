@@ -79,7 +79,7 @@ export const useUserStore = create(
       //fetch users
       fetchUsers: async () => {
         const { accessToken } = useUserStore.getState();
-        const res = await fetch("/api/users", {
+        const res = await fetch(`/api/users`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

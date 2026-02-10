@@ -14,7 +14,7 @@ export const usePetProfileStore = create((set) => ({
            return { success: false, message: "You must be logged in" };
         }
         try{
-            const res = await fetch("/api/petprofile", {
+            const res = await fetch(`/api/petprofile`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export const usePetProfileStore = create((set) => ({
     fetchPetProfile:async () => {
         const {accessToken} = useUserStore.getState();
         try{
-            const res= await fetch("/api/petprofile",{
+            const res= await fetch(`/api/petprofile`,{
                 headers: {
                      Authorization: `Bearer ${accessToken}`,
                 }
@@ -50,5 +50,39 @@ export const usePetProfileStore = create((set) => ({
         }catch(error){
             console.error("Fetch Pet Profile error:",error);
         }
+    },
+     
+    updatePetProfile: async(PetProfileid,updatepetprofile) => {
+        const {accessToken} = useUserStore.getState();
+        const res = await fetch(`/api/petprofile/${PetProfileid}`,{
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                 Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(updatepetprofile),
+        });
+        const data = await res.json();
+        if(!data.success)return{success:false,message: data.message};
+        set((state) => ({
+            PetProfile: state.PetProfile.map((PetProfile) => (PetProfile._id === PetProfileid? data.data :PetProfile)),
+        }));
+        return{success:true,message:data.message};
+    },
+
+    deletePetprofile: async(PetProfileid,deletepetprofile) => {
+        const {accessToken} = useUserStore.getState();
+        const res = await fetch(`/api/petprofile/${PetProfileid}`,{
+           method: "DELETE",
+           headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        const data = await res.json();
+        if(!data.success)return{success:false,message: data.message};
+         set((state) => ({
+            PetProfile: state.PetProfile.filter((PetProfile) => (PetProfile._id === PetProfileid? data.data :PetProfile)),
+        }));
+        return{success:true,message:data.message};
     }
 }))
